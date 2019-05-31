@@ -30,9 +30,9 @@ function checkFileType(file, cb) {
     const mimetype = filetypes.test(file.mimetype);
 
     if (mimetype && extname) {
-        return cb(null, true);
-    } else {
         cb('You can upload only image files!');
+    } else {
+        return cb(null, true);
     }
 }
 
@@ -41,8 +41,10 @@ function checkFileType(file, cb) {
 const uploadRouter = express.Router();
 
 uploadRouter.post('/image',(req, res) => {
+    console.log(req.file);
         upload(req,res,(error) =>{
             if(error){
+                console.log(error)
                 res.status(400).json({
                     success:false,
                     error:error
@@ -55,7 +57,8 @@ uploadRouter.post('/image',(req, res) => {
                         message: "No File Selected!"
                     });
                 } else {
-                    res.json(req.file);
+                    console.log(req.file);
+                    res.json({fileName: req.file.filename});
                 }
 
                 

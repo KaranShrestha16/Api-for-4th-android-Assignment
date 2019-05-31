@@ -2,7 +2,8 @@ const express = require('express');
 const routes = express.Router();
 const bodyParser = require('body-parser');
 const knex = require('knex');
-const cors = require('cors')
+const cors = require('cors');
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const UserAuthentication = require('../middleware/UserAuthentication')
 // connecting to the database 
@@ -29,7 +30,7 @@ routes.post('/items',function(req,res){
                 })
             }).catch(error => {
                 console.log(error, 'error')
-                response.status(400).json({
+                res.status(400).json({
                     success: false,
                     status:"Failed to insert data on items"
                 })

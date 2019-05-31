@@ -16,8 +16,6 @@ routes.use(cors.apply());
 
 //get all user detials 
 routes.get('/users', function(req, res){
-    const token = req.headers.authorization;
-
     dbClient.select().from('users')
             .then(function(users){
                 res.send(users)
@@ -52,8 +50,22 @@ routes.post('/users/register', function (req, res) {
 
 
 // DELETE  user detials
-routes.delete('/users/:id', function (req, res) {
-    res.send({ type: 'delete' })
+routes.delete('/users', function (req, res) {
+    dbClient('users')
+        .del()
+        .then(function () {
+            res.status(200).json({
+                sucess: true,
+                message: "All User Deleted"
+            });
+
+        }).catch(error => {
+            console.log(error, 'error')
+            response.status(400).json({
+                success: false,
+                status: "Cannot Delete data of Users"
+            })
+        })
 });
 
 // check user
